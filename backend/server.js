@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const Discogs = require('disconnect').Client;
+const path = require('path');
+const serveStatic = require('serve-static');
 
 const app = express();
 
@@ -106,6 +108,17 @@ app.post('/api/upload-releases', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Add this after your API routes but before error handling
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React frontend app
+  app.use(serveStatic(path.join(__dirname, '../web/build')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../web/build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
