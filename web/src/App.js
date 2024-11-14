@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
+const API_URL = process.env.NODE_ENV === 'production' 
+  ? '/api' 
+  : 'http://localhost:5001/api';
+
 const Home = () => {
   const [username, setUsername] = useState('');
   const [apiKey, setApiKey] = useState('');
@@ -15,7 +19,7 @@ const Home = () => {
     const validReleases = releases.filter(r => r.trim() !== '');
     
     try {
-      const response = await fetch('http://localhost:5001/api/upload-releases', {
+      const response = await fetch(`${API_URL}/upload-releases`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
