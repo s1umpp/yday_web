@@ -1,79 +1,92 @@
 # yday Complete Setup Guide
 
 This guide walks you through setting up:
-1. Google Workspace (for email)
+1. Mailgun (for email webhooks - FREE)
 2. DNS configuration (connecting yday.ai)
 3. GitHub Pages deployment
-4. Email ingestion with Apps Script
+4. Email ingestion webhook
 
 ---
 
-## Part 1: Google Workspace Setup (~10 minutes, $6/month)
+## Part 1: Mailgun Setup (~10 minutes, FREE)
 
-Google Workspace gives you:
-- Custom email (scan@yday.ai, hello@yday.ai)
-- Google Apps Script for email automation
-- Professional email delivery
+Mailgun gives you:
+- Email receiving for `scan@yday.ai`
+- Webhooks to trigger your backend
+- Email forwarding to ProtonMail
+- **Free tier: 100 emails/day (3,000/month)**
 
-### Step 1: Sign up for Google Workspace
+### Step 1: Sign up for Mailgun
 
-1. Go to: https://workspace.google.com/
-2. Click "Get Started"
-3. Choose the **Business Starter** plan ($6/user/month)
-4. Enter your business info:
-   - Business name: `yday`
-   - Number of employees: `Just you`
-5. When asked for domain: **"I have a domain I can use"**
-6. Enter: `yday.ai`
+1. Go to: https://www.mailgun.com/
+2. Click "Sign Up" (use the free tier)
+3. Create account with your email
+4. Verify your email address
 
-### Step 2: Verify Domain Ownership
+### Step 2: Add Your Domain
 
-Google will ask you to verify you own yday.ai. Choose **"Add a TXT record"**:
+1. In Mailgun dashboard, go to: **Sending** → **Domains**
+2. Click **Add New Domain**
+3. Enter: `yday.ai`
+4. Select: **US** (or EU if you prefer)
+5. Click **Add Domain**
 
-1. Log into GoDaddy: https://dcc.godaddy.com/
-2. Go to: My Products → Domains → yday.ai → DNS
-3. Add a TXT record:
-   - **Type**: TXT
-   - **Name**: @ (or leave blank)
-   - **Value**: (Google will give you a long string starting with `google-site-verification=...`)
-   - **TTL**: 1 hour
-4. Click Save
-5. Back in Google Workspace, click "Verify"
-   - Note: DNS can take 5-60 minutes to propagate
+### Step 3: Verify Domain Ownership
 
-### Step 3: Set Up MX Records (for email)
+Mailgun will show you DNS records to add. You'll need to add these in GoDaddy:
 
-After verification, Google will show you MX records to add. In GoDaddy DNS:
+#### TXT Record (for verification)
+| Type | Name | Value | TTL |
+|------|------|-------|-----|
+| TXT | @ | (Mailgun provides this - starts with `v=spf1`) | 1 hour |
 
-| Type | Name | Priority | Value |
-|------|------|----------|-------|
-| MX | @ | 1 | ASPMX.L.GOOGLE.COM |
-| MX | @ | 5 | ALT1.ASPMX.L.GOOGLE.COM |
-| MX | @ | 5 | ALT2.ASPMX.L.GOOGLE.COM |
-| MX | @ | 10 | ALT3.ASPMX.L.GOOGLE.COM |
-| MX | @ | 10 | ALT4.ASPMX.L.GOOGLE.COM |
+#### MX Records (for receiving emails)
+| Type | Name | Priority | Value | TTL |
+|------|------|----------|-------|-----|
+| MX | @ | 10 | mxa.mailgun.org | 1 hour |
+| MX | @ | 10 | mxb.mailgun.org | 1 hour |
 
-### Step 4: Create Your Admin Account
+#### TXT Record (for SPF)
+| Type | Name | Value | TTL |
+|------|------|-------|-----|
+| TXT | @ | (Mailgun provides SPF record) | 1 hour |
 
-1. Create your first user (this will be admin):
-   - Suggested: `joshua@yday.ai` or `hello@yday.ai`
-2. This account can create aliases and other accounts
+#### CNAME Record (for tracking - optional)
+| Type | Name | Value | TTL |
+|------|------|-------|-----|
+| CNAME | email | mailgun.org | 1 hour |
 
-### Step 5: Create Email Aliases
+**Note**: Mailgun will show you the exact values. Copy them from the Mailgun dashboard.
 
-In Google Admin Console (admin.google.com):
+### Step 4: Wait for Verification
 
-1. Go to: Directory → Users → Your user
-2. Click "User information"
-3. Under "Alternate emails", add:
-   - `scan@yday.ai` (for record scanning)
-   - `hello@yday.ai` (for general contact)
+1. After adding DNS records, go back to Mailgun
+2. Click **Verify DNS Settings**
+3. Wait 5-60 minutes for DNS propagation
+4. Once verified, you'll see green checkmarks
+
+### Step 5: Set Up Inbound Route
+
+1. In Mailgun dashboard, go to: **Receiving** → **Routes**
+2. Click **Create Route**
+3. Configure:
+   - **Filter**: `match_recipient("scan@yday.ai")`
+   - **Action 1**: **Forward** → Enter your ProtonMail email (e.g., `your-email@proton.me`)
+   - **Action 2**: **Store** (optional - stores in Mailgun)
+   - **Action 3**: **Notify** → Enter webhook URL: `https://yday-ios-backend-cee9m.ondigitalocean.app/api/scan/email-webhook`
+4. Click **Create Route**
+
+### Step 6: Get Your API Key
+
+1. In Mailgun dashboard, go to: **Settings** → **API Keys**
+2. Copy your **Private API Key** (starts with `key-...`)
+3. Save this - you'll need it for sending replies
 
 ---
 
 ## Part 2: DNS for Website (GitHub Pages)
 
-While in GoDaddy DNS, add these records for the website:
+While in GoDaddy DNS, also add these records for the website:
 
 ### A Records (for apex domain yday.ai)
 
@@ -90,19 +103,19 @@ While in GoDaddy DNS, add these records for the website:
 |------|------|-------|-----|
 | CNAME | www | s1umpp.github.io | 1 hour |
 
+**Important**: Don't remove the Mailgun MX records! You need both:
+- MX records for email (Mailgun)
+- A/CNAME records for website (GitHub Pages)
+
 ---
 
 ## Part 3: Deploy Website to GitHub Pages
 
 ### Step 1: Build and Deploy
-
-```bash
+ash
 cd /Users/joshua/projects/yday_web_temp/web
 npm install
-npm run deploy
-```
-
-This creates a `gh-pages` branch with the built site.
+npm run deployThis creates a `gh-pages` branch with the built site.
 
 ### Step 2: Configure GitHub Pages
 
@@ -120,202 +133,43 @@ This creates a `gh-pages` branch with the built site.
 
 ---
 
-## Part 4: Email Ingestion (Google Apps Script)
+## Part 4: Add Webhook Endpoint to Backend
 
-Once Google Workspace is set up and you can receive email at scan@yday.ai:
+The webhook endpoint code goes in your Flask backend. See the code section below.
 
-### Step 1: Create the Apps Script
+### Step 1: Add Environment Variable
 
-1. Go to: https://script.google.com/
-2. Sign in with your yday.ai Google account
-3. Click "New project"
-4. Name it: "yday Email Scanner"
+In your DigitalOcean App Platform environment variables, add:
+- `MAILGUN_API_KEY` = (your Mailgun private API key)
+- `MAILGUN_DOMAIN` = `yday.ai`
 
-### Step 2: Add the Script
+### Step 2: Add the Webhook Code
 
-Replace the code with:
+Add the webhook endpoint to your backend (see code below).
 
-```javascript
-// yday Email Scanner - Google Apps Script
-// Watches scan@yday.ai for incoming record photos
+### Step 3: Test the Webhook
 
-const BACKEND_URL = 'https://yday-ios-backend-cee9m.ondigitalocean.app';
-const LABEL_PROCESSED = 'Processed';
-const LABEL_ERROR = 'Error';
-
-function processNewEmails() {
-  // Get unread emails in inbox
-  const threads = GmailApp.search('is:unread has:attachment');
-  
-  threads.forEach(thread => {
-    const messages = thread.getMessages();
-    
-    messages.forEach(message => {
-      if (message.isUnread()) {
-        try {
-          processMessage(message);
-          message.markRead();
-          thread.addLabel(getOrCreateLabel(LABEL_PROCESSED));
-        } catch (error) {
-          console.error('Error processing message:', error);
-          thread.addLabel(getOrCreateLabel(LABEL_ERROR));
-        }
-      }
-    });
-  });
-}
-
-function processMessage(message) {
-  const senderEmail = message.getFrom();
-  const attachments = message.getAttachments();
-  
-  // Find image attachments
-  const imageAttachments = attachments.filter(att => 
-    att.getContentType().startsWith('image/')
-  );
-  
-  if (imageAttachments.length === 0) {
-    // No images, send helpful reply
-    sendReply(message, null, 'NO_IMAGE');
-    return;
-  }
-  
-  // Process first image
-  const image = imageAttachments[0];
-  const imageBlob = image.copyBlob();
-  const base64Image = Utilities.base64Encode(imageBlob.getBytes());
-  
-  // Call yday backend
-  const result = callYdayBackend(senderEmail, base64Image, image.getContentType());
-  
-  // Send reply with result
-  sendReply(message, result, result ? 'SUCCESS' : 'NOT_FOUND');
-}
-
-function callYdayBackend(email, base64Image, contentType) {
-  try {
-    const response = UrlFetchApp.fetch(`${BACKEND_URL}/api/scan/email`, {
-      method: 'POST',
-      contentType: 'application/json',
-      payload: JSON.stringify({
-        email: email,
-        image: base64Image,
-        content_type: contentType
-      }),
-      muteHttpExceptions: true
-    });
-    
-    if (response.getResponseCode() === 200) {
-      return JSON.parse(response.getContentText());
-    }
-    return null;
-  } catch (error) {
-    console.error('Backend call failed:', error);
-    return null;
-  }
-}
-
-function sendReply(originalMessage, result, status) {
-  let subject = 'Re: ' + originalMessage.getSubject();
-  let body = '';
-  
-  switch (status) {
-    case 'SUCCESS':
-      const album = result.matches?.[0] || result;
-      body = `Hey there! 🎵
-
-We found your record:
-
-📀 ${album.title || 'Unknown Title'}
-🎤 ${album.artist || 'Unknown Artist'}
-📅 ${album.year || 'Unknown Year'}
-${album.label ? '🏷️ ' + album.label : ''}
-
-Want to add this to your collection? Download the yday app:
-📱 https://testflight.apple.com/join/YOUR_TESTFLIGHT_ID
-
-Happy collecting!
-- yday`;
-      break;
-      
-    case 'NOT_FOUND':
-      body = `Hey there! 🎵
-
-We couldn't identify that record from the photo. This can happen if:
-- The image is blurry or too dark
-- It's a very rare pressing
-- The photo doesn't show enough of the cover
-
-Try sending another photo with better lighting, or showing more of the album artwork.
-
-Want to try our full scanner? Download the yday app:
-📱 https://testflight.apple.com/join/YOUR_TESTFLIGHT_ID
-
-Happy collecting!
-- yday`;
-      break;
-      
-    case 'NO_IMAGE':
-      body = `Hey there! 🎵
-
-We didn't see an image attachment in your email. 
-
-To scan a record, just attach a photo of the album cover, spine, or label and we'll identify it for you!
-
-Happy collecting!
-- yday`;
-      break;
-  }
-  
-  originalMessage.reply(body);
-}
-
-function getOrCreateLabel(name) {
-  let label = GmailApp.getUserLabelByName(name);
-  if (!label) {
-    label = GmailApp.createLabel(name);
-  }
-  return label;
-}
-
-// Set up a trigger to run every minute
-function createTrigger() {
-  // Delete existing triggers
-  const triggers = ScriptApp.getProjectTriggers();
-  triggers.forEach(trigger => ScriptApp.deleteTrigger(trigger));
-  
-  // Create new trigger - runs every minute
-  ScriptApp.newTrigger('processNewEmails')
-    .timeBased()
-    .everyMinutes(1)
-    .create();
-    
-  console.log('Trigger created! The script will check for new emails every minute.');
-}
-```
-
-### Step 3: Set Up the Trigger
-
-1. In the script editor, run `createTrigger()` function
-2. Authorize the script when prompted (allow Gmail access)
-
-### Step 4: Add Backend Endpoint
-
-You'll need to add a `/api/scan/email` endpoint to your backend. I'll create this next.
+1. Send a test email to `scan@yday.ai` with an image attachment
+2. Check your backend logs to see if the webhook was received
+3. Check your ProtonMail to see if the email was forwarded
+4. You should receive a reply with the scan results
 
 ---
 
 ## Summary Checklist
 
-- [ ] Sign up for Google Workspace ($6/month)
-- [ ] Verify domain ownership (TXT record)
-- [ ] Add MX records for email
+- [ ] Sign up for Mailgun (free tier)
+- [ ] Add domain `yday.ai` to Mailgun
+- [ ] Add DNS records (TXT, MX) in GoDaddy
+- [ ] Verify domain in Mailgun
+- [ ] Create inbound route (forward to ProtonMail + webhook)
 - [ ] Add A records for website
 - [ ] Add CNAME record for www
 - [ ] Deploy website: `npm run deploy`
 - [ ] Configure GitHub Pages
-- [ ] Create Apps Script for email
-- [ ] Add backend endpoint for email scanning
+- [ ] Add webhook endpoint to backend
+- [ ] Add Mailgun API key to environment variables
+- [ ] Test by emailing scan@yday.ai
 
 ---
 
@@ -323,15 +177,15 @@ You'll need to add a `/api/scan/email` endpoint to your backend. I'll create thi
 
 | Service | Cost |
 |---------|------|
-| Google Workspace | $6/month |
+| Mailgun | **FREE** (100 emails/day) |
 | GitHub Pages | Free |
 | DigitalOcean (existing backend) | ~$5-12/month |
 | GoDaddy domain | ~$12/year |
-| **Total** | ~$12-19/month |
+| ProtonMail Duo (you already have) | Already paying |
+| **Total** | **~$5-12/month** (just your existing backend) |
 
 ---
 
 ## Need Help?
 
 If you get stuck on any step, let me know and I can help troubleshoot!
-
