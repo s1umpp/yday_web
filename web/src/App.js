@@ -12,7 +12,7 @@ const Logo = ({ size = 'md' }) => {
     lg: 'w-24 h-24',
     xl: 'w-32 h-32'
   };
-  
+
   return (
     <div className={`${sizes[size]} relative`}>
       {/* Vinyl record visual */}
@@ -305,10 +305,10 @@ const App = () => {
       <div className="min-h-screen flex flex-col">
         <Navigation />
         <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
             <Route path="/changelog" element={<Changelog />} />
-          </Routes>
+        </Routes>
         </main>
         <Footer />
       </div>

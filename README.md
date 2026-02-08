@@ -4,11 +4,41 @@ The official website for yday - discover, collect, and build community around vi
 
 🌐 **Live Site**: [www.yday.ai](https://www.yday.ai)
 
-## Features
+## Quick Start
 
-- **Home Page**: Landing page with app features and download links
-- **Scan Records**: Bulk upload vinyl record photos for AI identification
-- **Changelog**: Track all updates to the yday app and website
+```bash
+cd web
+npm install
+npm start  # Development
+npm run deploy  # Deploy to GitHub Pages
+```
+
+## Deployment & Domain Setup
+
+### 1. Make Repository Public
+- Go to: Settings → Danger Zone → Change visibility → Make public
+
+### 2. Deploy to GitHub Pages
+```bash
+cd web
+npm run deploy
+```
+
+### 3. Configure GitHub Pages
+- Go to: Settings → Pages
+- Source: `gh-pages` branch / `(root)`
+- Custom domain: `www.yday.ai`
+- Enable "Enforce HTTPS"
+
+### 4. Update DNS (GoDaddy)
+- Edit existing `www` CNAME: Value = `your-username.github.io`
+- Add 4 A records for root domain (if needed):
+  - `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+
+### 5. Wait & Verify
+- DNS propagation: 5-60 minutes
+- Check: https://dnschecker.org/#CNAME/www.yday.ai
+- Visit: https://www.yday.ai
 
 ## Tech Stack
 
@@ -16,53 +46,16 @@ The official website for yday - discover, collect, and build community around vi
 - Tailwind CSS
 - GitHub Pages hosting
 
-## Development
-
-```bash
-cd web
-npm install
-npm start
-```
-
-## Deployment
-
-The site is deployed to GitHub Pages automatically. To deploy manually:
-
-```bash
-cd web
-npm run deploy
-```
-
-## Connecting Custom Domain (yday.ai)
-
-1. In your domain registrar (where you bought yday.ai), add these DNS records:
-   - Type: `A`, Name: `@`, Value: `185.199.108.153`
-   - Type: `A`, Name: `@`, Value: `185.199.109.153`
-   - Type: `A`, Name: `@`, Value: `185.199.110.153`
-   - Type: `A`, Name: `@`, Value: `185.199.111.153`
-   - Type: `CNAME`, Name: `www`, Value: `s1umpp.github.io`
-
-2. In the GitHub repo settings → Pages → Custom domain, enter: `www.yday.ai`
-
-3. Enable "Enforce HTTPS"
-
-## API Integration
-
-The website calls the yday backend API for record scanning:
-- Production: `https://yday-ios-backend-cee9m.ondigitalocean.app`
-
-Make sure CORS is configured to allow `https://www.yday.ai` on the backend.
-
-## Color Palette (from logo)
+## Color Palette
 
 ```css
---yday-dark: #0a0f1a;    /* Deep dark blue-black */
---yday-navy: #141e30;    /* Dark navy */
---yday-blue: #1a3a5c;    /* Muted blue */
---yday-purple: #2d2545;  /* Deep purple */
---yday-accent: #4a6fa5;  /* Muted accent blue */
---yday-text: #8b9dc3;    /* Muted text */
---yday-light: #c5d0e6;   /* Light text */
+--yday-dark: #0a0f1a;
+--yday-navy: #141e30;
+--yday-blue: #1a3a5c;
+--yday-purple: #2d2545;
+--yday-accent: #4a6fa5;
+--yday-text: #8b9dc3;
+--yday-light: #c5d0e6;
 ```
 
 ## License
