@@ -18,8 +18,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        'serif': ['Cormorant Garamond', 'Georgia', 'serif'],
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'serif': ['"David Libre"', 'Georgia', 'serif'],
       },
       backgroundImage: {
         'yday-gradient': 'linear-gradient(135deg, #0a0f1a 0%, #141e30 25%, #1a3a5c 50%, #2d2545 75%, #141e30 100%)',
