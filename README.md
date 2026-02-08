@@ -1,13 +1,70 @@
-This repo is set up to bulk upload records releases to discogs. Discogs used ot have this functionality but for some reason removed it.
+# yday Web
 
-To get started you will need to have a discogs account and create a discogs developer key.
+The official website for yday - discover, collect, and build community around vinyl records.
 
-Discogs account is self-explanatory and a discogs developer key can be found by Settings > Developer 
+🌐 **Live Site**: [www.yday.ai](https://www.yday.ai)
 
-<img width="1449" alt="Screenshot 2024-11-13 at 22 50 47" src="https://github.com/user-attachments/assets/b5865a03-d5dd-42ad-b166-a4e1aa4d15a6">
+## Features
 
-Then once on the page you can select "Generate new token"
+- **Home Page**: Landing page with app features and download links
+- **Scan Records**: Bulk upload vinyl record photos for AI identification
+- **Changelog**: Track all updates to the yday app and website
 
-<img width="715" alt="Screenshot 2024-11-13 at 22 53 02" src="https://github.com/user-attachments/assets/1c16bab9-97d0-44bb-9f9f-45a167a8ef48">
+## Tech Stack
 
-We never save the developer key and you can delete the key after use. Also the latest key is the one considered ni the web app
+- React 18
+- Tailwind CSS
+- GitHub Pages hosting
+
+## Development
+
+```bash
+cd web
+npm install
+npm start
+```
+
+## Deployment
+
+The site is deployed to GitHub Pages automatically. To deploy manually:
+
+```bash
+cd web
+npm run deploy
+```
+
+## Connecting Custom Domain (yday.ai)
+
+1. In your domain registrar (where you bought yday.ai), add these DNS records:
+   - Type: `A`, Name: `@`, Value: `185.199.108.153`
+   - Type: `A`, Name: `@`, Value: `185.199.109.153`
+   - Type: `A`, Name: `@`, Value: `185.199.110.153`
+   - Type: `A`, Name: `@`, Value: `185.199.111.153`
+   - Type: `CNAME`, Name: `www`, Value: `s1umpp.github.io`
+
+2. In the GitHub repo settings → Pages → Custom domain, enter: `www.yday.ai`
+
+3. Enable "Enforce HTTPS"
+
+## API Integration
+
+The website calls the yday backend API for record scanning:
+- Production: `https://yday-ios-backend-cee9m.ondigitalocean.app`
+
+Make sure CORS is configured to allow `https://www.yday.ai` on the backend.
+
+## Color Palette (from logo)
+
+```css
+--yday-dark: #0a0f1a;    /* Deep dark blue-black */
+--yday-navy: #141e30;    /* Dark navy */
+--yday-blue: #1a3a5c;    /* Muted blue */
+--yday-purple: #2d2545;  /* Deep purple */
+--yday-accent: #4a6fa5;  /* Muted accent blue */
+--yday-text: #8b9dc3;    /* Muted text */
+--yday-light: #c5d0e6;   /* Light text */
+```
+
+## License
+
+MIT
