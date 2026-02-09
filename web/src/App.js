@@ -9,16 +9,15 @@ const Logo = ({ size = 'md' }) => {
   const sizes = {
     sm: 'w-8 h-8',
     md: 'w-12 h-12',
-    lg: 'w-24 h-24',
-    xl: 'w-32 h-32'
+    lg: 'w-16 h-16',
+    xl: 'w-24 h-24'
   };
 
   return (
     <div className={`${sizes[size]} relative`}>
-      {/* Vinyl record visual */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yday-blue via-yday-purple to-yday-navy shadow-lg">
-        <div className="absolute inset-[30%] rounded-full bg-yday-dark/60" />
-        <div className="absolute inset-[45%] rounded-full bg-yday-accent/30" />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 shadow-2xl">
+        <div className="absolute inset-[25%] rounded-full bg-yday-dark/70" />
+        <div className="absolute inset-[40%] rounded-full bg-white/10" />
       </div>
     </div>
   );
@@ -26,45 +25,40 @@ const Logo = ({ size = 'md' }) => {
 
 const Navigation = () => {
   const location = useLocation();
-  
   const isActive = (path) => location.pathname === path;
   
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-yday-dark/80 backdrop-blur-md border-b border-yday-blue/20">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-yday-dark/95 backdrop-blur-xl border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-3 group">
             <Logo size="sm" />
-            <span className="font-serif text-xl text-yday-light tracking-wider group-hover:text-white transition-colors">
+            <span className="text-xl font-semibold text-white tracking-tight group-hover:text-blue-400 transition-colors">
               yday
             </span>
           </Link>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             <Link 
               to="/" 
-              className={`font-serif text-sm transition-colors ${
-                isActive('/') ? 'text-white' : 'text-yday-text hover:text-yday-light'
+              className={`text-sm font-medium transition-colors ${
+                isActive('/') 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
-              home
+              Home
             </Link>
             <Link 
               to="/changelog" 
-              className={`font-serif text-sm transition-colors ${
-                isActive('/changelog') ? 'text-white' : 'text-yday-text hover:text-yday-light'
+              className={`text-sm font-medium transition-colors ${
+                isActive('/changelog') 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
-              changelog
+              Changelog
             </Link>
-            <a 
-              href="https://testflight.apple.com/join/YOUR_TESTFLIGHT_ID" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="yday-button text-sm py-2 font-serif"
-            >
-              get the app
-            </a>
           </div>
         </div>
       </div>
@@ -73,22 +67,28 @@ const Navigation = () => {
 };
 
 const Footer = () => (
-  <footer className="border-t border-yday-blue/20 py-8 mt-16">
-    <div className="max-w-6xl mx-auto px-6">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+  <footer className="border-t border-white/5 bg-yday-dark/50">
+    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <Logo size="sm" />
-          <span className="font-serif text-yday-text">yday</span>
+          <span className="text-gray-400 font-medium">yday</span>
         </div>
-        <p className="text-yday-text/60 text-sm font-serif">
-          discover, collect, and build community
+        <p className="text-gray-500 text-sm">
+          Discover, collect, and build community around vinyl records
         </p>
-        <div className="flex gap-6 text-sm font-serif">
-          <a href="mailto:hello@yday.ai" className="text-yday-text hover:text-yday-light transition-colors">
-            contact
+        <div className="flex gap-6 text-sm">
+          <a 
+            href="mailto:hello@yday.ai" 
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            Contact
           </a>
-          <Link to="/changelog" className="text-yday-text hover:text-yday-light transition-colors">
-            changelog
+          <Link 
+            to="/changelog" 
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            Changelog
           </Link>
         </div>
       </div>
@@ -102,118 +102,166 @@ const Footer = () => (
 
 const Home = () => {
   return (
-    <div className="min-h-screen pt-24 pb-8">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16 text-center">
-        <Logo size="xl" />
-        <h1 className="font-serif text-5xl md:text-6xl mt-8 mb-4 text-yday-light tracking-wide">
-          yday
-        </h1>
-        <p className="text-yday-text text-xl md:text-2xl font-serif font-light mb-8 max-w-2xl mx-auto">
-          discover, collect, and build community around vinyl records
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="https://testflight.apple.com/join/YOUR_TESTFLIGHT_ID" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="yday-button font-serif"
-          >
-            download on testflight
-          </a>
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yday-dark via-indigo-950/50 to-yday-dark">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center">
+            <div className="flex justify-center mb-8">
+              <Logo size="xl" />
+            </div>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight">
+              yday
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Discover, collect, and build community around vinyl records
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Email CTA - The Hook */}
-      <section className="max-w-4xl mx-auto px-6 py-12">
-        <div className="yday-card p-10 text-center">
-          <div className="text-5xl mb-6">📧</div>
-          <h2 className="font-serif text-2xl md:text-3xl text-yday-light mb-4">
-            try it without downloading
-          </h2>
-          <p className="text-yday-text font-serif text-lg mb-6 max-w-xl mx-auto">
-            email a photo of any vinyl record and we'll identify it for you using AI
-          </p>
-          <a 
-            href="mailto:scan@yday.ai?subject=Scan my record&body=Attach a photo of your vinyl record and we'll identify it!"
-            className="yday-button font-serif inline-flex items-center gap-2 text-lg"
-          >
-            <span>📀</span>
-            email scan@yday.ai
-          </a>
-          <p className="text-yday-text/60 font-serif text-sm mt-4">
-            we'll reply with the album details within minutes
-          </p>
+      {/* Email CTA Section */}
+      <section className="relative py-20">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+            <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 mb-6">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Try it without downloading
+              </h2>
+              <p className="text-lg text-gray-400 mb-8 max-w-xl mx-auto">
+                Email a photo of any vinyl record and we'll identify it for you using AI. 
+                We'll reply with the album details within minutes.
+              </p>
+              <a 
+                href="mailto:scan@yday.ai?subject=Scan my record&body=Attach a photo of your vinyl record and we'll identify it!"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>Email scan@yday.ai</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="yday-card p-8 text-center">
-            <div className="text-4xl mb-4">📷</div>
-            <h3 className="font-serif text-xl mb-3 text-yday-light">scan & identify</h3>
-            <p className="text-yday-text font-serif text-sm">
-              point your camera at any vinyl record. our AI identifies it instantly from album art or text.
+      {/* Features Grid */}
+      <section className="relative py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              Everything you need
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Powerful tools for vinyl collectors
             </p>
           </div>
           
-          <div className="yday-card p-8 text-center">
-            <div className="text-4xl mb-4">📚</div>
-            <h3 className="font-serif text-xl mb-3 text-yday-light">build your collection</h3>
-            <p className="text-yday-text font-serif text-sm">
-              organize your records with conditions, notes, and AI-generated descriptions.
-            </p>
-          </div>
-          
-          <div className="yday-card p-8 text-center">
-            <div className="text-4xl mb-4">🤝</div>
-            <h3 className="font-serif text-xl mb-3 text-yday-light">connect & trade</h3>
-            <p className="text-yday-text font-serif text-sm">
-              find collectors nearby. buy, sell, and chat about records you love.
-            </p>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-blue-500/10 mb-6">
+                  <svg className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">Scan & Identify</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Point your camera at any vinyl record. Our AI identifies it instantly from album art or text.
+                </p>
+              </div>
+            </div>
+            
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-purple-500/10 mb-6">
+                  <svg className="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">Build Your Collection</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Organize your records with conditions, notes, and AI-generated descriptions.
+                </p>
+              </div>
+            </div>
+            
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-red-600 rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-pink-500/10 mb-6">
+                  <svg className="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">Connect & Trade</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Find collectors nearby. Buy, sell, and chat about records you love.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="max-w-4xl mx-auto px-6 py-16">
-        <h2 className="font-serif text-3xl text-center text-yday-light mb-12">how it works</h2>
-        <div className="space-y-8">
-          <div className="flex items-start gap-6">
-            <div className="w-12 h-12 rounded-full bg-yday-accent/20 flex items-center justify-center text-yday-accent font-serif text-xl flex-shrink-0">
-              1
-            </div>
-            <div>
-              <h3 className="font-serif text-xl text-yday-light mb-2">snap a photo</h3>
-              <p className="text-yday-text font-serif">
-                take a picture of the album cover, spine, or label. our AI works with any angle.
-              </p>
-            </div>
+      <section className="relative py-20">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              How it works
+            </h2>
+            <p className="text-xl text-gray-400">
+              Simple, fast, and accurate
+            </p>
           </div>
           
-          <div className="flex items-start gap-6">
-            <div className="w-12 h-12 rounded-full bg-yday-accent/20 flex items-center justify-center text-yday-accent font-serif text-xl flex-shrink-0">
-              2
-            </div>
-            <div>
-              <h3 className="font-serif text-xl text-yday-light mb-2">instant match</h3>
-              <p className="text-yday-text font-serif">
-                we identify the release, artist, year, and even pressing details from discogs.
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-start gap-6">
-            <div className="w-12 h-12 rounded-full bg-yday-accent/20 flex items-center justify-center text-yday-accent font-serif text-xl flex-shrink-0">
-              3
-            </div>
-            <div>
-              <h3 className="font-serif text-xl text-yday-light mb-2">grow your collection</h3>
-              <p className="text-yday-text font-serif">
-                add to your collection, set conditions, mark for sale, and connect with other collectors.
-              </p>
-            </div>
+          <div className="space-y-8">
+            {[
+              {
+                number: '01',
+                title: 'Snap a photo',
+                description: 'Take a picture of the album cover, spine, or label. Our AI works with any angle.'
+              },
+              {
+                number: '02',
+                title: 'Instant match',
+                description: 'We identify the release, artist, year, and even pressing details from Discogs.'
+              },
+              {
+                number: '03',
+                title: 'Grow your collection',
+                description: 'Add to your collection, set conditions, mark for sale, and connect with other collectors.'
+              }
+            ].map((step, index) => (
+              <div key={index} className="flex items-start gap-8 group">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span className="text-2xl font-bold text-blue-400">{step.number}</span>
+                  </div>
+                </div>
+                <div className="flex-1 pt-2">
+                  <h3 className="text-2xl font-semibold text-white mb-2">{step.title}</h3>
+                  <p className="text-gray-400 text-lg leading-relaxed">{step.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -222,68 +270,69 @@ const Home = () => {
 };
 
 const Changelog = () => {
-  // Static changelog - update this manually when you release
   const changelog = [
     {
       version: 'Unreleased',
       date: null,
       changes: [
-        { type: 'added', text: 'new balanced logo design with vinyl record visual' },
-        { type: 'added', text: 'email-based record scanning (scan@yday.ai)' },
-        { type: 'added', text: 'changelog page on website' },
-        { type: 'changed', text: 'login buttons no longer show loading spinners' },
-        { type: 'fixed', text: 'chat showing wrong recipient name' },
-        { type: 'fixed', text: '"in collection" badge logic corrected' },
+        { type: 'added', text: 'New balanced logo design with vinyl record visual' },
+        { type: 'added', text: 'Email-based record scanning (scan@yday.ai)' },
+        { type: 'added', text: 'Changelog page on website' },
+        { type: 'changed', text: 'Login buttons no longer show loading spinners' },
+        { type: 'fixed', text: 'Chat showing wrong recipient name' },
+        { type: 'fixed', text: '"In collection" badge logic corrected' },
       ],
     },
     {
       version: '0.1.0',
       date: '2026-02-08',
       changes: [
-        { type: 'added', text: 'initial testflight beta release' },
-        { type: 'added', text: 'google sign-in authentication' },
-        { type: 'added', text: 'demo account login for testers' },
-        { type: 'added', text: 'vinyl record scanning with gemini AI' },
-        { type: 'added', text: 'collection management' },
-        { type: 'added', text: 'for sale marketplace browse' },
-        { type: 'added', text: 'chat messaging between buyers and sellers' },
-        { type: 'added', text: 'user profiles with location sharing' },
+        { type: 'added', text: 'Initial TestFlight beta release' },
+        { type: 'added', text: 'Google Sign-In authentication' },
+        { type: 'added', text: 'Demo account login for testers' },
+        { type: 'added', text: 'Vinyl record scanning with Gemini AI' },
+        { type: 'added', text: 'Collection management' },
+        { type: 'added', text: 'For Sale marketplace browse' },
+        { type: 'added', text: 'Chat messaging between buyers and sellers' },
+        { type: 'added', text: 'User profiles with location sharing' },
       ],
     },
   ];
 
   const typeColors = {
-    added: 'bg-green-500/20 text-green-400',
-    changed: 'bg-blue-500/20 text-blue-400',
-    fixed: 'bg-orange-500/20 text-orange-400',
-    removed: 'bg-red-500/20 text-red-400',
+    added: 'bg-green-500/20 text-green-400 border-green-500/30',
+    changed: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    fixed: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    removed: 'bg-red-500/20 text-red-400 border-red-500/30',
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-8">
-      <div className="max-w-3xl mx-auto px-6 py-16">
-        <h1 className="font-serif text-4xl text-center mb-4 text-yday-light">changelog</h1>
-        <p className="text-yday-text text-center mb-12 font-serif">
-          all notable changes to yday
-        </p>
+    <div className="min-h-screen pt-32 pb-20">
+      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Changelog</h1>
+          <p className="text-xl text-gray-400">
+            All notable changes to yday
+          </p>
+        </div>
 
-        <div className="space-y-12">
+        <div className="space-y-8">
           {changelog.map((release, index) => (
-            <div key={index} className="yday-card p-8">
-              <div className="flex items-center gap-4 mb-6">
-                <h2 className="font-serif text-2xl text-yday-light">{release.version}</h2>
+            <div key={index} className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
+                <h2 className="text-3xl font-bold text-white">{release.version}</h2>
                 {release.date && (
-                  <span className="text-yday-text text-sm font-serif">{release.date}</span>
+                  <span className="text-gray-400 text-sm font-medium">{release.date}</span>
                 )}
               </div>
               
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {release.changes.map((change, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className={`text-xs font-serif font-medium px-2 py-1 rounded ${typeColors[change.type]}`}>
+                  <li key={i} className="flex items-start gap-4">
+                    <span className={`text-xs font-semibold px-3 py-1.5 rounded-lg border ${typeColors[change.type]}`}>
                       {change.type}
                     </span>
-                    <span className="text-yday-light font-serif text-sm">{change.text}</span>
+                    <span className="text-gray-300 flex-1">{change.text}</span>
                   </li>
                 ))}
               </ul>
@@ -302,13 +351,13 @@ const Changelog = () => {
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-yday-dark">
         <Navigation />
         <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
+          <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/changelog" element={<Changelog />} />
-        </Routes>
+          </Routes>
         </main>
         <Footer />
       </div>
