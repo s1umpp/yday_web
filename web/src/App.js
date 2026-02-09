@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 // COMPONENTS
 // ============================================
 
-const Logo = ({ size = 'md' }) => {
+const Logo = ({ size = 'md', className = '' }) => {
   const sizes = {
     sm: 'w-8 h-8',
     md: 'w-12 h-12',
@@ -14,12 +14,11 @@ const Logo = ({ size = 'md' }) => {
   };
 
   return (
-    <div className={`${sizes[size]} relative`}>
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 shadow-2xl">
-        <div className="absolute inset-[25%] rounded-full bg-yday-dark/70" />
-        <div className="absolute inset-[40%] rounded-full bg-white/10" />
-      </div>
-    </div>
+    <img 
+      src="/logo2.png" 
+      alt="yday logo" 
+      className={`${sizes[size]} ${className} object-contain`}
+    />
   );
 };
 
@@ -33,7 +32,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center gap-3 group">
             <Logo size="sm" />
-            <span className="text-xl font-semibold text-white tracking-tight group-hover:text-blue-400 transition-colors">
+            <span className="text-xl font-semibold text-white tracking-tight group-hover:text-blue-400 transition-colors" style={{ fontFamily: 'David Libre, serif' }}>
               yday
             </span>
           </Link>
@@ -59,42 +58,18 @@ const Navigation = () => {
             >
               Changelog
             </Link>
+            <a 
+              href="mailto:hello@yday.ai" 
+              className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
+            >
+              Contact
+            </a>
           </div>
         </div>
       </div>
     </nav>
   );
 };
-
-const Footer = () => (
-  <footer className="border-t border-white/5 bg-yday-dark/50">
-    <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-3">
-          <Logo size="sm" />
-          <span className="text-gray-400 font-medium">yday</span>
-        </div>
-        <p className="text-gray-500 text-sm">
-          Discover, collect, and build community around vinyl records
-        </p>
-        <div className="flex gap-6 text-sm">
-          <a 
-            href="mailto:hello@yday.ai" 
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            Contact
-          </a>
-          <Link 
-            to="/changelog" 
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            Changelog
-          </Link>
-        </div>
-      </div>
-    </div>
-  </footer>
-);
 
 // ============================================
 // PAGES
@@ -116,10 +91,10 @@ const Home = () => {
             <div className="flex justify-center mb-8">
               <Logo size="xl" />
             </div>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 tracking-tight" style={{ fontFamily: 'David Libre, serif' }}>
               yday
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed" style={{ fontFamily: 'David Libre, serif' }}>
               Discover, collect, and build community around vinyl records
             </p>
           </div>
@@ -137,7 +112,7 @@ const Home = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily: 'David Libre, serif' }}>
                 Try it without downloading
               </h2>
               <p className="text-lg text-gray-400 mb-8 max-w-xl mx-auto">
@@ -162,7 +137,7 @@ const Home = () => {
       <section className="relative py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: 'David Libre, serif' }}>
               Everything you need
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -180,7 +155,7 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Scan & Identify</h3>
+                <h3 className="text-xl font-semibold text-white mb-3" style={{ fontFamily: 'David Libre, serif' }}>Scan & Identify</h3>
                 <p className="text-gray-400 leading-relaxed">
                   Point your camera at any vinyl record. Our AI identifies it instantly from album art or text.
                 </p>
@@ -195,7 +170,7 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Build Your Collection</h3>
+                <h3 className="text-xl font-semibold text-white mb-3" style={{ fontFamily: 'David Libre, serif' }}>Build Your Collection</h3>
                 <p className="text-gray-400 leading-relaxed">
                   Organize your records with conditions, notes, and AI-generated descriptions.
                 </p>
@@ -210,7 +185,7 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Connect & Trade</h3>
+                <h3 className="text-xl font-semibold text-white mb-3" style={{ fontFamily: 'David Libre, serif' }}>Connect & Trade</h3>
                 <p className="text-gray-400 leading-relaxed">
                   Find collectors nearby. Buy, sell, and chat about records you love.
                 </p>
@@ -224,7 +199,7 @@ const Home = () => {
       <section className="relative py-20">
         <div className="max-w-5xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: 'David Libre, serif' }}>
               How it works
             </h2>
             <p className="text-xl text-gray-400">
@@ -257,7 +232,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="flex-1 pt-2">
-                  <h3 className="text-2xl font-semibold text-white mb-2">{step.title}</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-2" style={{ fontFamily: 'David Libre, serif' }}>{step.title}</h3>
                   <p className="text-gray-400 text-lg leading-relaxed">{step.description}</p>
                 </div>
               </div>
@@ -310,7 +285,7 @@ const Changelog = () => {
     <div className="min-h-screen pt-32 pb-20">
       <div className="max-w-4xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Changelog</h1>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4" style={{ fontFamily: 'David Libre, serif' }}>Changelog</h1>
           <p className="text-xl text-gray-400">
             All notable changes to yday
           </p>
@@ -320,7 +295,7 @@ const Changelog = () => {
           {changelog.map((release, index) => (
             <div key={index} className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
-                <h2 className="text-3xl font-bold text-white">{release.version}</h2>
+                <h2 className="text-3xl font-bold text-white" style={{ fontFamily: 'David Libre, serif' }}>{release.version}</h2>
                 {release.date && (
                   <span className="text-gray-400 text-sm font-medium">{release.date}</span>
                 )}
@@ -359,7 +334,6 @@ const App = () => {
             <Route path="/changelog" element={<Changelog />} />
           </Routes>
         </main>
-        <Footer />
       </div>
     </Router>
   );
