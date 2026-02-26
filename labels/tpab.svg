@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#2F4F2F"/>
+  <circle cx="100" cy="100" r="6" fill="#222" opacity="0.6"/>
+  <text x="100" y="105" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="serif" font-size="20" font-weight="bold" opacity="0.85">TPAB</text>
+</svg>

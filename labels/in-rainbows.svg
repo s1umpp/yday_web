@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#FF1493"/>
+  <circle cx="100" cy="100" r="6" fill="#222" opacity="0.6"/>
+  <text x="100" y="95" text-anchor="middle" fill="white" font-family="serif" font-size="16" font-weight="bold" opacity="0.85">
+    <tspan x="100" dy="0">In</tspan>
+    <tspan x="100" dy="18">Rainbows</tspan>
+  </text>
+</svg>
